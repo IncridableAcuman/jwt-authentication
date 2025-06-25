@@ -2,7 +2,6 @@ package com.boot.backend.util;
 
 import com.boot.backend.model.UserModel;
 import com.boot.backend.repository.TokenRepository;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -70,13 +69,13 @@ public class JwtUtil {
     }
 //    extract email with token
     @Deprecated
-    public Claims extractAllClaims(String refreshToken){
+    public String extractEmail(String refreshToken){
         return Jwts
                 .parser()
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseSignedClaims(refreshToken)
-                .getBody();
+                .getBody().getSubject();
     }
 //    extract expiration
 

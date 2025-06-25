@@ -3,10 +3,11 @@ package com.boot.backend.util;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 
 public class CookieUtil {
-
-
+    @Value("${jwt.refresh-time}")
+    private long refreshTime;
 //    add token to cookie
     public static void addCookie(HttpServletResponse response,String refreshToken){
         Cookie cookie=new Cookie("refreshToken",refreshToken);
