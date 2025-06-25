@@ -58,13 +58,24 @@ public class JwtUtil {
                 .compact();
     }
 //    validate token
-    public boolean validateToken(String refreshToken){
+    @Deprecated
+    public Boolean validateToken(String refreshToken){
         try {
+            Jwts.parser().setSigningKey(getSigningKey()).build().parseSignedClaims(refreshToken);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 //    extract email with token
-
+    @Deprecated
+    public String extractEmail(String refreshToken){
+        return Jwts
+                .parser()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseSignedClaims(refreshToken)
+                .getBody()
+                .getSubject();
+    }
 }
