@@ -6,24 +6,25 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
-
+@Component
 @RequiredArgsConstructor
 public class JwtUtil {
     private final TokenRepository tokenRepository;
 //    secret
     @Value("${jwt.secret}")
-    private String secret;
+    private  String secret;
 //    access time
     @Value("${jwt.access-time}")
     private long accessTime;
 //    refresh time
     @Value("${jwt.refresh-time}")
-    private long refreshTime;
+    private  long refreshTime;
 
 //    get signing key
     public Key getSigningKey(){
