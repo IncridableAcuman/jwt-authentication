@@ -1,9 +1,15 @@
 package com.boot.backend.dto;
 
 import com.boot.backend.enums.Role;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthResponse {
     private Long id;
     private String username;
@@ -11,12 +17,4 @@ public class AuthResponse {
     private Role role;
     private String accessToken;
     private String refreshToken;
-    public AuthResponse(Long id,String username,String email,Role role,String accessToken,String refreshToken){
-        this.id=id;
-        this.username=username;
-        this.email=email;
-        this.role=role;
-        this.accessToken=accessToken;
-        this.refreshToken=refreshToken;
-    }
 }

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tokens")
@@ -19,13 +19,19 @@ public class TokenModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 //    refresh token
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String refreshToken;
+
+    //    refresh token of expiry date
+    private LocalDateTime expiryDate;
+
+    private boolean expired=false;
+    private boolean revoked=false;
+
     //    user
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",nullable = false)
     private UserModel userModel;
-//    refresh token of expiry date
-    private Date expiryDate;
 
 }
 

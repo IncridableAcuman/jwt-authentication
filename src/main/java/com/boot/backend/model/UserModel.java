@@ -27,7 +27,7 @@ public class UserModel implements UserDetails {
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -35,6 +35,9 @@ public class UserModel implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;//user,admin
+
+    @OneToMany(mappedBy = "userModel",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<TokenModel> tokens;
 
 //    user details
     @Override
