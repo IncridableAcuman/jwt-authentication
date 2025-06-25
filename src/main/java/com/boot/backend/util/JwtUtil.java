@@ -2,6 +2,7 @@ package com.boot.backend.util;
 
 import com.boot.backend.model.UserModel;
 import com.boot.backend.repository.TokenRepository;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +17,13 @@ import java.util.Date;
 public class JwtUtil {
     private final TokenRepository tokenRepository;
 //    secret
-    @Value("${secret}")
+    @Value("${jwt.secret}")
     private String secret;
 //    access time
-    @Value("${access-time}")
+    @Value("${jwt.access-time}")
     private long accessTime;
 //    refresh time
-    @Value("${refresh-time}")
+    @Value("${jwt.refresh-time}")
     private long refreshTime;
 
 //    get signing key
@@ -69,13 +70,14 @@ public class JwtUtil {
     }
 //    extract email with token
     @Deprecated
-    public String extractEmail(String refreshToken){
+    public Claims extractAllClaims(String refreshToken){
         return Jwts
                 .parser()
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseSignedClaims(refreshToken)
-                .getBody()
-                .getSubject();
+                .getBody();
     }
+//    extract expiration
+
 }

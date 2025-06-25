@@ -6,6 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -13,7 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserModel {
+public class UserModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,4 +37,24 @@ public class UserModel {
     private Role role;//user,admin
 
 //    user details
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        return List.of(new SimpleGrantedAuthority("ROLE_"));
+    }
+//    isAccountNonExpired
+    public boolean isAccountNonExpired(){
+        return true;
+    }
+//    isAccountNonLocked
+    public boolean isAccountNonLocked(){
+        return true;
+    }
+//    isCredentialsNonExpired
+    public boolean isCredentialsNonExpired(){
+        return true;
+    }
+//    isEnabled
+    public boolean isEnabled(){
+        return true;
+    }
 }

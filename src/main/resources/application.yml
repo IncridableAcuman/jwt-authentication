@@ -16,6 +16,6 @@ spring:
         format_sql: true
 
 jwt:
-  secret: ToshkentAxborotTexnologiyalari06
+  secret: programmer_uzbekistan_1234567890
   access-time: 900000
   refresh-time: 604800000

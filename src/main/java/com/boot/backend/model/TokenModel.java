@@ -21,11 +21,11 @@ public class TokenModel {
 //    refresh token
     @Column(nullable = false)
     private String refreshToken;
+    //    user
+    @ManyToOne
+    private UserModel userModel;
 //    refresh token of expiry date
     private Date expiryDate;
-//    user
-    @OneToMany(mappedBy = "user_id",cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "user_id")
-    private UserModel userModel;
+
 }
 
