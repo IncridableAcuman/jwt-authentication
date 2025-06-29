@@ -1,6 +1,6 @@
 package com.boot.backend.config;
 
-import com.boot.backend.service.UserService;
+import com.boot.backend.service.CustomUserDetailsService;
 import com.boot.backend.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,7 +20,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
-    private final UserService userService;
+    private final CustomUserDetailsService userService;
+
 
     @Override
     @Deprecated
@@ -52,7 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 null,
                                 userDetails.getAuthorities()
                         );
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource());
+                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }

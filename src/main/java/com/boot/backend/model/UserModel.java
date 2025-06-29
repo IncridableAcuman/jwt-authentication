@@ -36,9 +36,6 @@ public class UserModel implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;//user,admin
 
-    @OneToMany(mappedBy = "userModel",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<TokenModel> tokens;
-
 //    user details
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){

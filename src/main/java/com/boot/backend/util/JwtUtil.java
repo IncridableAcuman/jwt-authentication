@@ -46,7 +46,7 @@ public class JwtUtil {
     }
 //    generate refresh token
     @Deprecated
-    public String refreshToken(UserModel userModel){
+    public String generateRefreshToken(UserModel userModel){
         return Jwts
                 .builder()
                 .setSubject(userModel.getEmail())

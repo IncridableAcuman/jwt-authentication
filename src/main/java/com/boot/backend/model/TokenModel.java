@@ -25,12 +25,12 @@ public class TokenModel {
     //    refresh token of expiry date
     private LocalDateTime expiryDate;
 
-    private boolean expired=false;
-    private boolean revoked=false;
+    private boolean expired;
+    private boolean revoked;
 
     //    user
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",nullable = false)
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private UserModel userModel;
 
 }

@@ -1,11 +1,23 @@
 server:
-  port: 8080
+  port: ${PORT}
 
 spring:
+  mail:
+      host: smtp.gmail.com
+      port: 587
+      username: ${SMTP_USER}
+      password: ${SMTP_PASS}
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
+
   datasource:
-    url: jdbc:postgresql://localhost:3306/postgres
-    username: postgres
-    password: 1234
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASS}
 
   jpa:
     hibernate:
@@ -16,6 +28,6 @@ spring:
         format_sql: true
 
 jwt:
-  secret: programmer_uzbekistan_1234567890
-  access-time: 900000
-  refresh-time: 604800000
+  secret: ${JWT_SECRET}
+  access-time: ${JWT_ACCESS_TIME}
+  refresh-time: ${JWT_REFRESH_TIME}
