@@ -2,6 +2,9 @@ package com.boot.backend.service;
 
 import com.boot.backend.dto.RegisterRequest;
 import com.boot.backend.enums.Role;
+import com.boot.backend.exception.BadRequestExceptionHandler;
+import com.boot.backend.exception.UserNotFoundException;
+import com.boot.backend.exception.ValidationError;
 import com.boot.backend.model.UserModel;
 import com.boot.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +20,7 @@ public class UserService {
 
     public UserModel createUser(RegisterRequest request){
         if(userRepository.findByEmail(request.getEmail()).isPresent()){
-            throw new RuntimeException("User already exist");
+            throw new BadRequestExceptionHandler("User already exist");
         }
         UserModel userModel=new UserModel();
         userModel.setUsername(request.getUsername());
@@ -28,11 +31,11 @@ public class UserService {
     }
 //    find user
     public UserModel findUser(String email){
-        return userRepository.findByEmail(email).orElseThrow(()->new RuntimeException("User not found"));
+        return userRepository.findByEmail(email).orElseThrow(()->new UserNotFoundException("User not found"));
     }
     public void matchesPassword(String requestPassword,String userPassword){
         if(!passwordEncoder.matches(requestPassword,userPassword)){
-            throw new RuntimeException("Password does not match");
+            throw new ValidationError("Password does not match");
         }
     }
     public void updatePassword(String password){

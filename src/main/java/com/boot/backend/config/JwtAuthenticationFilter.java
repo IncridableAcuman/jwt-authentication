@@ -1,5 +1,6 @@
 package com.boot.backend.config;
 
+import com.boot.backend.exception.ServerErrorExceptionHandler;
 import com.boot.backend.service.CustomUserDetailsService;
 import com.boot.backend.util.JwtUtil;
 import jakarta.servlet.FilterChain;
@@ -42,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             email=jwtUtil.extractEmail(jwt);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ServerErrorExceptionHandler(e.getMessage());
         }
         if(email!=null && SecurityContextHolder.getContext().getAuthentication()==null){
             UserDetails userDetails=this.userService.loadUserByUsername(email);

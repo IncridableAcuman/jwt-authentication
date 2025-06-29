@@ -4,6 +4,7 @@ import com.boot.backend.model.TokenModel;
 import com.boot.backend.model.UserModel;
 import com.boot.backend.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,7 +24,7 @@ public class TokenService {
         return tokenRepository.save(tokenModel);
     }
     public  TokenModel findByUserModel(UserModel userModel){
-        return tokenRepository.findByUserModel(userModel).orElseThrow(()->new RuntimeException("Token not found"));
+        return tokenRepository.findByUserModel(userModel).orElseThrow(()->new UsernameNotFoundException("Token not found"));
 
     }
     public void removeToken(TokenModel tokenModel){
