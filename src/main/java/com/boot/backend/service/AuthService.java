@@ -9,6 +9,7 @@ import com.boot.backend.util.MessageUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final TokenService tokenService;
     private final MessageUtil messageUtil;
+    @Value("${client-url}")
+    private String url;
 //    register
     @Transactional
     @Deprecated
@@ -68,8 +71,8 @@ public class AuthService {
     @Deprecated
     public AuthResponse refresh(String refreshToken ,HttpServletResponse response){
 //        validate token
-        if(!jwtUtil.validateToken(refreshToken)){
-            throw new RuntimeException("Invalid token");
+        if(!jwtUtil.validateToken(refreshToken) || jwtUtil.isTokenExpired(refreshToken)){
+            throw new RuntimeException("Invalid token or expired");
         }
 //        extracting email with token
         String email=jwtUtil.extractEmail(refreshToken);
@@ -95,8 +98,8 @@ public class AuthService {
     @Transactional
     public void logout(String refreshToken,HttpServletResponse response){
         //        validate token
-        if(!jwtUtil.validateToken(refreshToken)){
-            throw new RuntimeException("Invalid token");
+        if(!jwtUtil.validateToken(refreshToken) || jwtUtil.isTokenExpired(refreshToken)){
+            throw new RuntimeException("Invalid token or expired");
         }
         String email=jwtUtil.extractEmail(refreshToken);
         UserModel userModel=userService.findUser(email);
@@ -110,7 +113,7 @@ public class AuthService {
     public String forgotPassword(ForgotPasswordRequest request){
         UserModel userModel=userService.findUser(request.getEmail());
         String accessToken=jwtUtil.generateAccessToken(userModel);
-        messageUtil.sendMail(request.getEmail(), "Reset Password","http://localhost:5173?accessToken="+accessToken);
+        messageUtil.sendMail(request.getEmail(), "Reset Password",url+"/reset-password?accessToken="+accessToken);
         return "Reset Password link sent to your email";
     }
     @Deprecated

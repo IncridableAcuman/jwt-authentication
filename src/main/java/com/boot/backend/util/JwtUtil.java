@@ -68,6 +68,17 @@ public class JwtUtil {
             return false;
         }
     }
+    @Deprecated
+    public Boolean isTokenExpired(String refreshToken){
+        Date date=Jwts
+                .parser()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseSignedClaims(refreshToken)
+                .getBody()
+                .getExpiration();
+        return date.after(new Date());
+    }
 //    extract email with token
     @Deprecated
     public String extractEmail(String refreshToken){
