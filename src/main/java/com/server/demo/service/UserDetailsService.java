@@ -1,0 +1,5 @@
+package com.server.demo.service;
+
+public class UserDetailsService
+{
+}
