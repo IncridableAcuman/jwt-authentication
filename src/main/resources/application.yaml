@@ -14,3 +14,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+jwt:
+  secret: uzbekistan_uzbekistan_1234567890
+  access_time: 900000
+  refresh_time: 604800000
