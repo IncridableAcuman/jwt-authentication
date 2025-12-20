@@ -44,7 +44,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private String avatar;
+    private boolean enabled=false;
+
+    private String avatar="https://github.com/shadcn.png";
 
     private LocalDateTime createAt;
 

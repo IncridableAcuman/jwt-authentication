@@ -27,6 +27,6 @@ spring:
             enable: true
 
 jwt:
-  secret: uzbekistan_uzbekistan_0123456789_uzbekistan
-  access_time: 900000
-  refresh_time: 604800000
+  secret: ${JWT_SECRET}
+  access_time: ${JWT_ACCESS_TIME}
+  refresh_time: ${JWT_REFRESH_TIME}
