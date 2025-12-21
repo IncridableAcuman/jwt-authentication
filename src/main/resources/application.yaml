@@ -1,12 +1,19 @@
 server:
-  port:8080
+  port: ${PORT}
 
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 15MB
+
   datasource:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASS}
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,6 +21,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -26,7 +34,12 @@ spring:
           starttls:
             enable: true
 
+
 jwt:
   secret: ${JWT_SECRET}
   access_time: ${JWT_ACCESS_TIME}
   refresh_time: ${JWT_REFRESH_TIME}
+
+app:
+  upload:
+    dir: ${UPLOAD_DIR}

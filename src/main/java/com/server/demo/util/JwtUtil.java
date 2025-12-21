@@ -62,11 +62,10 @@ public class JwtUtil {
     public Date getExpirationTimeFromToken(String token){
         return extractClaims(token).getExpiration();
     }
-    public boolean validateToken(User user,String token){
+    public boolean validateToken(String token){
         try {
-            String subject = getSubjectFromToken(token);
             Date expiryDate = getExpirationTimeFromToken(token);
-            return subject.equals(user.getEmail()) && expiryDate.after(new Date());
+            return expiryDate.after(new Date());
         } catch (
                 SecurityException |
                  MalformedJwtException |

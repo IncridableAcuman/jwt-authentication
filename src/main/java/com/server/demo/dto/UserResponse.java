@@ -4,7 +4,7 @@ import com.server.demo.enums.Role;
 
 import java.time.LocalDateTime;
 
-public record AuthResponse(
+public record UserResponse(
         Long id,
         String firstName,
         String lastName,
@@ -14,7 +14,6 @@ public record AuthResponse(
         boolean enabled,
         String avatar,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt,
-        String accessToken
+        LocalDateTime updatedAt
 ) {
 }

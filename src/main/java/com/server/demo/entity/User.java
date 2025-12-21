@@ -46,7 +46,7 @@ public class User implements UserDetails {
 
     private boolean enabled=false;
 
-    private String avatar="https://github.com/shadcn.png";
+    private String avatar;
 
     private LocalDateTime createAt;
 
