@@ -1,5 +1,6 @@
 package com.server.demo.service;
 
+import com.server.demo.dto.AuthResponse;
 import com.server.demo.dto.RegisterRequest;
 import com.server.demo.dto.UserResponse;
 import com.server.demo.entity.User;
@@ -37,7 +38,7 @@ public class UserService {
     }
     public void existUser(String email){
         if (userRepository.findByEmail(email).isPresent()){
-            throw new NotFoundExceptionHandler("User not found");
+            throw new BadRequestExceptionHandler("User already exist.");
         }
     }
     public void isPasswordEqual(String rawPassword,String encodePassword){
@@ -48,7 +49,7 @@ public class UserService {
     public User saveUser(User user){
         return userRepository.save(user);
     }
-    public UserResponse response(User user){
+    public UserResponse userResponse(User user){
         return new UserResponse(
                 user.getId(),
                 user.getFirstName(),
@@ -70,5 +71,13 @@ public class UserService {
             user.setRole(Role.USER);
         }
        return saveUser(user);
+   }
+   public AuthResponse authResponse(User user,String accessToken){
+        return new AuthResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                accessToken
+        );
    }
 }
