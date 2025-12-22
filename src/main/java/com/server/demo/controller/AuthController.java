@@ -1,17 +1,12 @@
 package com.server.demo.controller;
 
-import com.server.demo.dto.AuthResponse;
-import com.server.demo.dto.LoginRequest;
-import com.server.demo.dto.RegisterRequest;
+import com.server.demo.dto.*;
 import com.server.demo.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -26,5 +21,24 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request, HttpServletResponse response){
         return ResponseEntity.ok(authService.login(request,response));
+    }
+    @GetMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@CookieValue(name = "refreshToken",required = false) String refreshToken,HttpServletResponse response){
+        return ResponseEntity.ok(authService.refresh(refreshToken,response));
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@CookieValue(name = "refreshToken") String refreshToken,HttpServletResponse response){
+        authService.logout(refreshToken,response);
+        return ResponseEntity.ok("Logged out successfully.");
+    }
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request){
+        authService.forgotPassword(request);
+        return ResponseEntity.ok("Reset password link sent to email");
+    }
+    @PutMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@Valid ResetPasswordRequest request){
+        authService.resetPassword(request);
+        return ResponseEntity.ok("Password updated successfully");
     }
 }

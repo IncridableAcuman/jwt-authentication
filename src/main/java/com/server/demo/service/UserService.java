@@ -80,4 +80,8 @@ public class UserService {
                 accessToken
         );
    }
+   public void updatePassword(User user,String password){
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+   }
 }

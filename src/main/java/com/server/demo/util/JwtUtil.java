@@ -57,7 +57,11 @@ public class JwtUtil {
                 .getBody();
     }
     public String getSubjectFromToken(String token){
-        return extractClaims(token).getSubject();
+        try {
+            return extractClaims(token).getSubject();
+        } catch (Exception e){
+            throw new UnAuthorizationExceptionHandler(e.getMessage());
+        }
     }
     public Date getExpirationTimeFromToken(String token){
         return extractClaims(token).getExpiration();
