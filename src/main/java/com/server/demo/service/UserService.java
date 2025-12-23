@@ -11,8 +11,10 @@ import com.server.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +22,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public User findUserByEmail(String email){
         return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundExceptionHandler("User not found"));
     }
+    @Transactional
     public User create (RegisterRequest request){
         User user = new User();
         user.setFirstName(request.getFirstName());
@@ -36,6 +40,7 @@ public class UserService {
         user.setCreateAt(LocalDateTime.now());
         return userRepository.save(user);
     }
+    @Transactional
     public void existUser(String email){
         if (userRepository.findByEmail(email).isPresent()){
             throw new BadRequestExceptionHandler("User already exist.");
@@ -46,6 +51,7 @@ public class UserService {
             throw new BadRequestExceptionHandler("Password does not match.");
         }
     }
+    @Transactional
     public User saveUser(User user){
         return userRepository.save(user);
     }
@@ -63,6 +69,7 @@ public class UserService {
                 user.getUpdatedAt()
         );
     }
+    @Transactional
    public User changeRole(Long id,String roleName){
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExceptionHandler("User not found"));
         if (user.getRole().equals(Role.USER)){
@@ -80,8 +87,18 @@ public class UserService {
                 accessToken
         );
    }
+   @Transactional
    public void updatePassword(User user,String password){
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
+   }
+   @Transactional
+   public List<UserResponse> userList(){
+        List<User> users = userRepository.findAll();
+        return users.stream().map(this::userResponse).toList();
+   }
+   @Transactional
+    public User findUserById(Long id){
+       return userRepository.findById(id).orElseThrow(()->new NotFoundExceptionHandler("User not found"));
    }
 }
