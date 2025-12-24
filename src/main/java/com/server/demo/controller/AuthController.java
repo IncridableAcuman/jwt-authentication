@@ -41,4 +41,8 @@ public class AuthController {
         authService.resetPassword(request);
         return ResponseEntity.ok("Password updated successfully");
     }
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> getMe(){
+        return ResponseEntity.ok(authService.getMe());
+    }
 }

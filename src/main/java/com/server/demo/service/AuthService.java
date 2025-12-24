@@ -8,6 +8,8 @@ import com.server.demo.util.JwtUtil;
 import com.server.demo.util.MailUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,5 +81,12 @@ private final MailUtil mailUtil;
         String email = jwtUtil.getSubjectFromToken(request.getToken());
         User user = userService.findUserByEmail(email);
         userService.updatePassword(user,request.getPassword());
+    }
+    public UserResponse getMe(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        assert authentication !=null;
+        User user = (User) authentication.getPrincipal();
+        assert user != null;
+        return userService.userResponse(user);
     }
 }
