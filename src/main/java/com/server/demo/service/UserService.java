@@ -70,14 +70,14 @@ public class UserService {
         );
     }
     @Transactional
-   public User changeRole(Long id,String roleName){
+   public User changeRole(Long id){
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExceptionHandler("User not found"));
         if (user.getRole().equals(Role.USER)){
             user.setRole(Role.ADMIN);
         } else {
             user.setRole(Role.USER);
         }
-       return saveUser(user);
+        return saveUser(user);
    }
    public AuthResponse authResponse(User user,String accessToken){
         return new AuthResponse(
@@ -100,5 +100,10 @@ public class UserService {
    @Transactional
     public User findUserById(Long id){
        return userRepository.findById(id).orElseThrow(()->new NotFoundExceptionHandler("User not found"));
+   }
+   @Transactional
+    public void deleteUser(Long id){
+        User user = findUserById(id);
+        userRepository.delete(user);
    }
 }
