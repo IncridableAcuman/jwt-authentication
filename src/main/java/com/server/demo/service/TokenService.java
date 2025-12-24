@@ -22,8 +22,8 @@ public class TokenService {
     }
     @Transactional
     public void saveToken(User user,String refreshToken){
-        findTokenByUser(user).ifPresent(tokenRepository::delete);
-        Token token = new Token();
+        Optional<Token> optional = findTokenByUser(user);
+        Token token = optional.orElseGet(Token::new);
         token.setUser(user);
         token.setRefreshToken(refreshToken);
         token.setExpiryDate(LocalDateTime.now().plusDays(7));

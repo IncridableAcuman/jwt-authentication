@@ -47,9 +47,8 @@ private final MailUtil mailUtil;
     }
     @Transactional
     public AuthResponse refresh(String refreshToken,HttpServletResponse response){
-
-        if (refreshToken == null || refreshToken.isEmpty() || !jwtUtil.validateToken(refreshToken)){
-            throw new UnAuthorizationExceptionHandler("Refresh token is missing or invalid.");
+        if (!jwtUtil.validateToken(refreshToken)){
+            throw new UnAuthorizationExceptionHandler("Token is missing or invalid.");
         }
         String email = jwtUtil.getSubjectFromToken(refreshToken);
         User user = userService.findUserByEmail(email);
@@ -75,7 +74,7 @@ private final MailUtil mailUtil;
     }
     @Transactional
     public void resetPassword(ResetPasswordRequest request){
-        if (!jwtUtil.validateToken(request.getToken())){
+        if (jwtUtil.validateToken(request.getToken())){
             throw new UnAuthorizationExceptionHandler("Token is missing or invalid.");
         }
         String email = jwtUtil.getSubjectFromToken(request.getToken());
@@ -86,7 +85,7 @@ private final MailUtil mailUtil;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         assert authentication !=null;
         User user = (User) authentication.getPrincipal();
-        assert user != null;
+        assert user !=null;
         return userService.userResponse(user);
     }
 }

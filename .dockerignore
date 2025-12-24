@@ -1,0 +1,22 @@
+# Gradle build artifacts
+.gradle
+build/
+
+# IDE files and directories
+.idea/
+.vscode/
+*.iml
+
+# Wrapper files
+.gradlew
+gradlew.bat
+
+# Git
+.git
+.gitignore
+
+# Maven (if any maven files exist for some reason)
+target/
+
+# Log files
+*.log
