@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+  database-platform: org.hibernate.dialect.H2Dialect
+
+jwt:
+  secret: mytestsecretkeymytestsecretkey123456
+  access_time: 900000
+  refresh_time: 604800000

@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -24,8 +26,9 @@ private final MailUtil mailUtil;
 
     @Transactional
     public AuthResponse authResponse(User user,HttpServletResponse response){
-        String accessToken = jwtUtil.getTokens(user).get("accessToken");
-        String refreshToken = jwtUtil.getTokens(user).get("refreshToken");
+        Map<String,String> tokens = jwtUtil.getTokens(user);
+        String accessToken = tokens.get("accessToken");
+        String refreshToken = tokens.get("refreshToken");
         tokenService.saveToken(user,refreshToken);
         cookieUtil.addCookie(refreshToken,response);
         return userService.authResponse(user,accessToken);
@@ -74,7 +77,7 @@ private final MailUtil mailUtil;
     }
     @Transactional
     public void resetPassword(ResetPasswordRequest request){
-        if (jwtUtil.validateToken(request.getToken())){
+        if (!jwtUtil.validateToken(request.getToken())){
             throw new UnAuthorizationExceptionHandler("Token is missing or invalid.");
         }
         String email = jwtUtil.getSubjectFromToken(request.getToken());
