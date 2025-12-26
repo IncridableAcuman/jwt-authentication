@@ -2,16 +2,6 @@ server:
   port: ${PORT}
 
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          github:
-            client-id: ${GITHUB_ID}
-            client-secret: ${GITHUB_SECRET}
-          google:
-            client-id: ${GOOGLE_ID}
-            client-secret: ${GOOGLE_SECRET}
   servlet:
     multipart:
       enabled: true
