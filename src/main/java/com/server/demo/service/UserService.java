@@ -30,25 +30,6 @@ public class UserService {
         return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundExceptionHandler("User not found"));
     }
     @Transactional
-    public Optional<User> findByEmailOptional(String email){
-        return userRepository.findByEmail(email);
-    }
-    @Transactional
-    public User createFromOAuth(String email, String name, Map<String,Object> attributes){
-        User user = new User();
-        user.setEmail(email);
-        user.setUsername(email.split("@")[0]);
-        user.setFirstName((String) attributes.getOrDefault("given_name",name));
-        user.setLastName((String) attributes.getOrDefault("family_name",""));
-        user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
-        user.setEnabled(true);
-        user.setRole(Role.USER);
-        user.setAvatar((String) attributes.get("picture"));
-        user.setCreateAt(LocalDateTime.now());
-
-        return userRepository.save(user);
-    }
-    @Transactional
     public User create (RegisterRequest request){
         User user = new User();
         user.setFirstName(request.getFirstName());
