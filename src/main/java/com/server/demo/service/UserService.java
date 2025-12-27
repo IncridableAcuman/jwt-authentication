@@ -5,8 +5,8 @@ import com.server.demo.dto.RegisterRequest;
 import com.server.demo.dto.UserResponse;
 import com.server.demo.entity.User;
 import com.server.demo.enums.Role;
-import com.server.demo.exception.BadRequestExceptionHandler;
-import com.server.demo.exception.NotFoundExceptionHandler;
+import com.server.demo.exception.BadRequestException;
+import com.server.demo.exception.NotFoundException;
 import com.server.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,9 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +23,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
     public User findUserByEmail(String email){
-        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundExceptionHandler("User not found"));
+        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User not found"));
     }
     @Transactional
     public User create (RegisterRequest request){
@@ -43,17 +40,12 @@ public class UserService {
         user.setCreateAt(LocalDateTime.now());
         return userRepository.save(user);
     }
-    @Transactional
     public void existUser(String email){
         if (userRepository.findByEmail(email).isPresent()){
-            throw new BadRequestExceptionHandler("User already exist.");
+            throw new BadRequestException("User already exist.");
         }
     }
-    public void isPasswordEqual(String rawPassword,String encodePassword){
-        if (!passwordEncoder.matches(rawPassword,encodePassword)){
-            throw new BadRequestExceptionHandler("Password does not match.");
-        }
-    }
+
     @Transactional
     public User saveUser(User user){
         return userRepository.save(user);
@@ -74,7 +66,7 @@ public class UserService {
     }
     @Transactional
    public User changeRole(Long id){
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExceptionHandler("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
         if (user.getRole().equals(Role.USER)){
             user.setRole(Role.ADMIN);
         } else {
@@ -100,9 +92,8 @@ public class UserService {
         List<User> users = userRepository.findAll();
         return users.stream().map(this::userResponse).toList();
    }
-   @Transactional
     public User findUserById(Long id){
-       return userRepository.findById(id).orElseThrow(()->new NotFoundExceptionHandler("User not found"));
+       return userRepository.findById(id).orElseThrow(()->new NotFoundException("User not found"));
    }
    @Transactional
     public void deleteUser(Long id){

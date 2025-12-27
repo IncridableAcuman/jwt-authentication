@@ -1,7 +1,7 @@
 package com.server.demo.util;
 
 import com.server.demo.entity.User;
-import com.server.demo.exception.UnAuthorizationExceptionHandler;
+import com.server.demo.exception.UnAuthorizationException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -61,7 +61,7 @@ public class JwtUtil {
         try {
             return extractClaims(token).getSubject();
         } catch (Exception e){
-            throw new UnAuthorizationExceptionHandler(e.getMessage());
+            throw new UnAuthorizationException(e.getMessage());
         }
     }
     public Date getExpirationTimeFromToken(String token){
@@ -78,7 +78,7 @@ public class JwtUtil {
                  UnsupportedJwtException |
                  IllegalArgumentException e
         ){
-            throw new UnAuthorizationExceptionHandler(e.getMessage());
+            throw new UnAuthorizationException(e.getMessage());
         }
     }
 }

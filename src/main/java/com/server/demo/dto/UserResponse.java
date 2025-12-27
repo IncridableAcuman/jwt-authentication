@@ -2,7 +2,7 @@ package com.server.demo.dto;
 
 import com.server.demo.enums.Role;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public record UserResponse(
         Long id,
@@ -13,7 +13,7 @@ public record UserResponse(
         Role role,
         boolean enabled,
         String avatar,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        OffsetDateTime createdAt,
+        OffsetDateTime updatedAt
 ) {
 }

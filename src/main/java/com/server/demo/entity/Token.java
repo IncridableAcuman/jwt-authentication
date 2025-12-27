@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "tokens")
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Token implements Serializable {
+public class Token  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,5 +26,5 @@ public class Token implements Serializable {
     @Column(name = "refresh_token",nullable = false,unique = true)
     private String refreshToken;
 
-    private LocalDateTime expiryDate;
+    private OffsetDateTime expiryDate;
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
     private final AdminService adminService;
 
-    @GetMapping("/users/{id}")
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id){
         adminService.deleteUser(id);
         return ResponseEntity.ok("User deleted successfully: "+id);

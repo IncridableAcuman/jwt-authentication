@@ -2,7 +2,7 @@ package com.server.demo.service;
 
 import com.server.demo.entity.Token;
 import com.server.demo.entity.User;
-import com.server.demo.exception.NotFoundExceptionHandler;
+import com.server.demo.exception.NotFoundException;
 import com.server.demo.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class TokenService {
     }
     @Transactional
     public void removeToken(User user){
-        Token token = findTokenByUser(user).orElseThrow(()->new NotFoundExceptionHandler("Token not found"));
+        Token token = findTokenByUser(user).orElseThrow(()->new NotFoundException("Token not found"));
         tokenRepository.delete(token);
     }
 }

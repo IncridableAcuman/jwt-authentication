@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class CustomUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
     private final UserRepository userRepository;
     @NotNull
     public UserDetails loadUserByUsername(@NotNull String email) throws UsernameNotFoundException{

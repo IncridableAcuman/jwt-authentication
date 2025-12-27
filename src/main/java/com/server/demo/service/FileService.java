@@ -1,6 +1,6 @@
 package com.server.demo.service;
 
-import com.server.demo.exception.BadRequestExceptionHandler;
+import com.server.demo.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class FileService {
 
     public String saveFile(MultipartFile file) {
         if (file.isEmpty()){
-            throw new BadRequestExceptionHandler("Failed to store file.");
+            throw new BadRequestException("Failed to store file.");
         }
         try {
             Path uploadPath = Paths.get(uploadDir);
@@ -36,7 +36,7 @@ public class FileService {
 
             return fileName;
         } catch (IOException e){
-            throw new BadRequestExceptionHandler(e.getMessage());
+            throw new BadRequestException(e.getMessage());
         }
     }
 }

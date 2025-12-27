@@ -1,6 +1,6 @@
 package com.server.demo.config;
 
-import com.server.demo.service.UserDetailsService;
+import com.server.demo.service.CustomUserDetailsService;
 import com.server.demo.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,7 +19,7 @@ import java.io.IOException;
 @Configuration
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
     @Override
     protected void doFilterInternal(

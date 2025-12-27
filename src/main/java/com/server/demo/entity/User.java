@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -48,9 +48,21 @@ public class User implements UserDetails {
 
     private String avatar;
 
-    private LocalDateTime createAt;
+    private OffsetDateTime createAt;
 
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        createAt = OffsetDateTime.now();
+        updatedAt = OffsetDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = OffsetDateTime.now();
+    }
+
 
     @NotNull
     @Override
