@@ -1,5 +1,5 @@
 # Professional Full Stack Authentication System
-Professional authentication system built with Spring Boot, React,Typescript and jwt authentication.
+Professional authentication system built with Spring Boot and jwt authentication.
 
 **Features:**
 - JWT Authentication
@@ -9,15 +9,13 @@ Professional authentication system built with Spring Boot, React,Typescript and 
 
 ## Tech Stack
 ### Backend:
-- Java 21
+- Java 17
 - Spring Boot
 - Spring Security
 - JWT 
 - PostgreSQL
-- Maven
 - Docker
-- Redis
-- RabbitMQ
+- Gradle
 
 ## Authentication Flow
 1. User login in with email and password
